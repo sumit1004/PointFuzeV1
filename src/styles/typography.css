@@ -1,0 +1,31 @@
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.text-h1 { font-size: 3rem; }
+.text-h2 { font-size: 2.5rem; }
+.text-h3 { font-size: 2rem; }
+.text-h4 { font-size: 1.5rem; }
+
+.text-body {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.text-small {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.text-number {
+  font-family: var(--font-secondary);
+  font-weight: 600;
+}
+
+.text-primary { color: var(--color-primary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+.text-white { color: var(--color-text); }
