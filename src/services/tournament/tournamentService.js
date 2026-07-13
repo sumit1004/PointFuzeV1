@@ -72,15 +72,26 @@ export const saveAndExitTournament = async (userId, tournamentId, localState) =>
   const refPath = getTournamentRef(userId, tournamentId);
   const timestamp = new Date().toISOString();
 
-  // Determine final status based on whether matches exist and are all completed, etc.
-  // We'll leave it as IN_PROGRESS generally, or COMPLETED if designated by the frontend
-  const finalStatus = localState.metadata.status === TOURNAMENT_STATUS.DRAFT ? TOURNAMENT_STATUS.IN_PROGRESS : localState.metadata.status;
+  // Sort overallResult to find Champion and Runner-up
+  const overallArray = Object.values(localState.overallResult || {}).sort((a, b) => a.rank - b.rank);
+
+  // Generate lightweight snapshot for History page
+  const summary = {
+    champion: overallArray[0]?.teamName || null,
+    runnerUp: overallArray[1]?.teamName || null,
+    totalMatches: Object.keys(localState.matches || {}).length,
+    totalTeams: Object.keys(localState.teams || {}).length,
+    lastExport: null
+  };
+
+  const finalStatus = TOURNAMENT_STATUS.COMPLETED;
 
   const updates = {
     'metadata/status': finalStatus,
     'metadata/updatedAt': timestamp,
-    'metadata/matchCount': Object.keys(localState.matches).length,
-    'metadata/completedMatches': Object.values(localState.matches).filter(m => m.metadata.status === 'COMPLETED').length,
+    'metadata/matchCount': summary.totalMatches,
+    'metadata/completedMatches': Object.values(localState.matches || {}).filter(m => m.metadata.status === 'COMPLETED').length,
+    'metadata/summary': summary,
     'matches': localState.matches,
     'overallResult': localState.overallResult
   };

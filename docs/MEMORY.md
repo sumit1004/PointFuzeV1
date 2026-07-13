@@ -15,10 +15,11 @@
   - Phase 5: Match Workspace & Live Result Engine, Local React State architecture, Tie-breaking, Save Validation.
   - Phase 6: Template Studio, Template Compiler, Esports Widgets, JSON canvas architecture.
   - Phase 7: Export Engine, Export Wizard, Data Builder Adapter, Image Rendering.
+  - Phase 8: History & Tournament Archive, Server-side Filtering, Duplication, Read-only Modals.
 - **In Progress**:
   - N/A
 - **Pending**:
-  - Phase 8: Refinement, Testing, and Final Polish
+  - Phase 9: Final Polish, Vercel Deployment, Production Preparation.
 
 ## Context
 - **Current Working File**: N/A

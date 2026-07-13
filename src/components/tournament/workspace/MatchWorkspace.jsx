@@ -52,8 +52,8 @@ const MatchWorkspace = () => {
     setIsSaving(true);
     try {
       await saveAndExitTournament(user.uid, tournament.metadata.id, tournament);
-      toast.success('Tournament Saved successfully!');
-      navigate('/dashboard/tournaments');
+      toast.success('Tournament Completed and Saved to History!');
+      navigate('/dashboard/history');
     } catch (err) {
       toast.error('Failed to save tournament to cloud.');
       console.error(err);

@@ -10,6 +10,7 @@ import CreateTournament from '../pages/Dashboard/Tournaments/CreateTournament';
 import TournamentDetails from '../pages/Dashboard/Tournaments/TournamentDetails';
 import TemplateWorkspace from '../pages/Dashboard/TemplateStudio/TemplateWorkspace';
 import TemplateEditor from '../pages/Dashboard/TemplateStudio/TemplateEditor';
+import History from '../pages/Dashboard/History/History';
 import NotFound from '../pages/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -35,7 +36,7 @@ const AppRoutes = () => {
           <Route path="tournaments/:tournamentId" element={<TournamentDetails />} />
           <Route path="tournaments/:tournamentId/edit" element={<PlaceholderPage title="Edit Settings" />} />
           <Route path="template-studio" element={<TemplateWorkspace />} />
-          <Route path="history" element={<PlaceholderPage title="History" />} />
+          <Route path="history" element={<History />} />
           <Route path="settings" element={<PlaceholderPage title="Settings" />} />
         </Route>
       </Route>
