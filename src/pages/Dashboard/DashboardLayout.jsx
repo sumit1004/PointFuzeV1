@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import './Dashboard.css';
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -14,7 +15,7 @@ const DashboardLayout = ({ children }) => {
       <div className="dashboard-main">
         <Header toggleSidebar={toggleSidebar} />
         <main className="dashboard-content">
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>

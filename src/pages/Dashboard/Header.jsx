@@ -1,21 +1,22 @@
 import { Menu } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
-import Button from '../../components/ui/Button';
+import Breadcrumb from '../../components/dashboard/Breadcrumb';
+import UserMenu from '../../components/dashboard/UserMenu';
+import NotificationBell from '../../components/dashboard/NotificationBell';
 
 const Header = ({ toggleSidebar }) => {
-  const { user } = useAuth();
-
   return (
     <header className="dashboard-header">
       <div className="flex items-center gap-4">
-        <button className="md:hidden text-text" onClick={toggleSidebar}>
+        <button className="md:hidden text-text p-1 hover:bg-[rgba(255,255,255,0.05)] rounded-md" onClick={toggleSidebar}>
           <Menu size={24} />
         </button>
-        <h1 className="text-h4">Overview</h1>
+        <Breadcrumb />
       </div>
-      <div className="header-actions">
-        {/* Actions like notifications can go here later */}
-        <Button variant="primary" size="sm">+ New Tournament</Button>
+      
+      <div className="flex items-center gap-2 md:gap-4">
+        <NotificationBell />
+        <div className="h-6 w-px bg-[rgba(255,255,255,0.1)] mx-1"></div>
+        <UserMenu />
       </div>
     </header>
   );
