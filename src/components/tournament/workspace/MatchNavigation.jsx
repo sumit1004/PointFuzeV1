@@ -1,3 +1,4 @@
+import React from 'react';
 import { Plus, Copy, Trash2, CheckCircle2 } from 'lucide-react';
 import { MATCH_STATUS } from '../../../constants/tournamentStatus';
 
@@ -79,4 +80,4 @@ const MatchNavigation = ({ matches, activeMatchId, onSelect, onAdd, onDuplicate,
   );
 };
 
-export default MatchNavigation;
+export default React.memo(MatchNavigation);

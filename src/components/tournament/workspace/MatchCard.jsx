@@ -175,4 +175,4 @@ const MatchCard = ({ matchId }) => {
   );
 };
 
-export default MatchCard;
+export default React.memo(MatchCard);

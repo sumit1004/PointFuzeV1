@@ -12,6 +12,11 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Validate critical env variables
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  console.error("Firebase Configuration Error: Missing critical environment variables. Check your .env file.");
+}
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
