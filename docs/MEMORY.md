@@ -12,10 +12,11 @@
   - Phase 2: Dashboard Foundation, modular widget architecture, realtime database listeners, nested routing.
   - Phase 3: Tournament Management Foundation, 5-Step Wizard, Tournament Context, Workspace List, Expanded Firebase Schema.
   - Phase 4: Tournament Initialization & Team Setup, Excel Parsing, Stable IDs, Firebase Initialization Schema.
+  - Phase 5: Match Workspace & Live Result Engine, Local React State architecture, Tie-breaking, Save Validation.
 - **In Progress**:
   - N/A
 - **Pending**:
-  - Phase 5: Match Management & Calculation Engine
+  - Phase 6: History, Export Engine, and Template Studio
 
 ## Context
 - **Current Working File**: N/A

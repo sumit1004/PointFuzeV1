@@ -68,6 +68,31 @@ export const initializeTournament = async (userId, data, teamsData = null) => {
   return tournamentId;
 };
 
+export const saveAndExitTournament = async (userId, tournamentId, localState) => {
+  const refPath = getTournamentRef(userId, tournamentId);
+  const timestamp = new Date().toISOString();
+
+  // Determine final status based on whether matches exist and are all completed, etc.
+  // We'll leave it as IN_PROGRESS generally, or COMPLETED if designated by the frontend
+  const finalStatus = localState.metadata.status === TOURNAMENT_STATUS.DRAFT ? TOURNAMENT_STATUS.IN_PROGRESS : localState.metadata.status;
+
+  const updates = {
+    'metadata/status': finalStatus,
+    'metadata/updatedAt': timestamp,
+    'metadata/matchCount': Object.keys(localState.matches).length,
+    'metadata/completedMatches': Object.values(localState.matches).filter(m => m.metadata.status === 'COMPLETED').length,
+    'matches': localState.matches,
+    'overallResult': localState.overallResult
+  };
+
+  await update(refPath, updates);
+  
+  // Clear the local backup since we successfully synced to cloud
+  localStorage.removeItem(`pointfuze_backup_${tournamentId}`);
+  
+  return true;
+};
+
 export const updateTournament = async (userId, tournamentId, updates) => {
   const tRef = getTournamentRef(userId, tournamentId);
   const timestamp = new Date().toISOString();

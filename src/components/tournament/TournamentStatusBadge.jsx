@@ -6,10 +6,10 @@ const TournamentStatusBadge = ({ status }) => {
   let label = '';
 
   switch (status) {
-    case TOURNAMENT_STATUS.ACTIVE:
+    case TOURNAMENT_STATUS.IN_PROGRESS:
       bgColor = 'bg-[rgba(34,197,94,0.15)]';
       textColor = 'text-success';
-      label = 'Active';
+      label = 'In Progress';
       break;
     case TOURNAMENT_STATUS.COMPLETED:
       bgColor = 'bg-[rgba(59,130,246,0.15)]';

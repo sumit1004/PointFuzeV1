@@ -67,7 +67,7 @@ const TournamentWorkspace = () => {
       </div>
 
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-        {['ALL', TOURNAMENT_STATUS.DRAFT, TOURNAMENT_STATUS.ACTIVE, TOURNAMENT_STATUS.COMPLETED].map((status) => (
+        {['ALL', TOURNAMENT_STATUS.DRAFT, TOURNAMENT_STATUS.IN_PROGRESS, TOURNAMENT_STATUS.COMPLETED].map((status) => (
           <button
             key={status}
             onClick={() => setFilter(status)}
