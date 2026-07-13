@@ -5,62 +5,79 @@
   font-family: var(--font-primary);
   font-weight: 600;
   border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  transition: all var(--transition-normal);
   white-space: nowrap;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
-/* Variants */
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Primary Button */
 .btn-primary {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 .btn-primary:hover:not(:disabled) {
-  background-color: #E66A00;
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
   box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
 }
 
+/* Secondary Button */
 .btn-secondary {
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.03);
   color: var(--color-text);
   border: 1px solid var(--color-border);
 }
 .btn-secondary:hover:not(:disabled) {
-  background-color: var(--color-border);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
+/* Ghost Button */
 .btn-ghost {
   background-color: transparent;
   color: var(--color-text-secondary);
 }
 .btn-ghost:hover:not(:disabled) {
   color: var(--color-text);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Sizes */
 .btn-sm {
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: 6px var(--spacing-2);
   font-size: 0.875rem;
 }
 .btn-md {
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: 10px var(--spacing-3);
   font-size: 1rem;
 }
 .btn-lg {
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: 14px var(--spacing-4);
   font-size: 1.125rem;
 }
 
 /* Inline Loader */
 .loader {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #FFF;
-  border-bottom-color: transparent;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-bottom-color: #FFF;
   border-radius: 50%;
   display: inline-block;
   animation: spin 1s linear infinite;
