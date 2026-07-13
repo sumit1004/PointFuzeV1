@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import MatchNavigation from './MatchNavigation';
 import MatchCard from './MatchCard';
 import OverallTable from './OverallTable';
-import { Save, AlertCircle } from 'lucide-react';
+import { Save, AlertCircle, ImageDown } from 'lucide-react';
 import toast from 'react-hot-toast';
+import ExportWizard from '../../export/ExportWizard';
 
 const MatchWorkspace = () => {
   const { tournament, dispatch } = useTournament();
@@ -18,6 +19,7 @@ const MatchWorkspace = () => {
   const [activeTab, setActiveTab] = useState('MATCH'); // 'MATCH' or 'OVERALL'
   const [activeMatchId, setActiveMatchId] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   // Auto-select first match on load
   useEffect(() => {
@@ -35,18 +37,10 @@ const MatchWorkspace = () => {
 
   const handleAddMatch = () => {
     dispatch({ type: 'ADD_MATCH' });
-    // Tab switching logic handled automatically by useEffect or could be forced here
   };
 
   const handleSaveAndExit = async () => {
-    // 1. Force overall calculation to guarantee final accurate state
     dispatch({ type: 'CALCULATE_OVERALL' });
-
-    // 2. We must use the current context state, but since dispatch is synchronous in React 18, 
-    // it's tricky to read it immediately. Instead, we can run the calculation manually to validate, 
-    // but context state updates will be committed. For safety, let's validate what we have.
-    
-    // Actually, dispatch is async. We should validate the current tournament state minus the overall calc (since validation only checks matches).
     const { isValid, errors } = validateTournamentState(tournament, tournament.configuration.pointConfig);
 
     if (!isValid) {
@@ -76,7 +70,7 @@ const MatchWorkspace = () => {
   };
 
   return (
-    <div className="flex flex-col h-full animate-fade-in pb-20">
+    <div className="flex flex-col h-full animate-fade-in pb-20 relative">
       {/* Header */}
       <div className="glass-panel p-4 rounded-xl border border-[rgba(255,255,255,0.05)] mb-6 flex justify-between items-center sticky top-0 z-10 backdrop-blur-md">
         <div>
@@ -86,14 +80,24 @@ const MatchWorkspace = () => {
           </p>
         </div>
         
-        <button 
-          onClick={handleSaveAndExit}
-          disabled={isSaving}
-          className="btn btn-primary flex items-center gap-2 shadow-glow"
-        >
-          <Save size={18} />
-          {isSaving ? 'Saving...' : 'Save & Exit'}
-        </button>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setIsExporting(true)}
+            className="btn btn-ghost flex items-center gap-2 border border-[rgba(255,255,255,0.1)]"
+          >
+            <ImageDown size={18} />
+            <span className="hidden sm:inline">Export Graphic</span>
+          </button>
+          
+          <button 
+            onClick={handleSaveAndExit}
+            disabled={isSaving}
+            className="btn btn-primary flex items-center gap-2 shadow-glow"
+          >
+            <Save size={18} />
+            <span className="hidden sm:inline">{isSaving ? 'Saving...' : 'Save & Exit'}</span>
+          </button>
+        </div>
       </div>
 
       <div className="glass-panel p-4 md:p-6 rounded-xl border border-[rgba(255,255,255,0.05)] flex-1">
@@ -121,6 +125,13 @@ const MatchWorkspace = () => {
           )}
         </div>
       </div>
+
+      {isExporting && (
+        <ExportWizard 
+          tournament={tournament}
+          onClose={() => setIsExporting(false)}
+        />
+      )}
     </div>
   );
 };

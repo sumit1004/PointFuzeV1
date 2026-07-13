@@ -8,6 +8,8 @@ import PlaceholderPage from '../pages/Dashboard/PlaceholderPage';
 import TournamentWorkspace from '../pages/Dashboard/Tournaments/TournamentWorkspace';
 import CreateTournament from '../pages/Dashboard/Tournaments/CreateTournament';
 import TournamentDetails from '../pages/Dashboard/Tournaments/TournamentDetails';
+import TemplateWorkspace from '../pages/Dashboard/TemplateStudio/TemplateWorkspace';
+import TemplateEditor from '../pages/Dashboard/TemplateStudio/TemplateEditor';
 import NotFound from '../pages/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -22,13 +24,17 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<ProtectedRoute />}>
+        {/* Fullscreen Editor Route */}
+        <Route path="/dashboard/template-studio/:templateId" element={<TemplateEditor />} />
+
+        {/* Dashboard Layout Routes */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="tournaments" element={<TournamentWorkspace />} />
           <Route path="tournaments/create" element={<CreateTournament />} />
           <Route path="tournaments/:tournamentId" element={<TournamentDetails />} />
           <Route path="tournaments/:tournamentId/edit" element={<PlaceholderPage title="Edit Settings" />} />
-          <Route path="template-studio" element={<PlaceholderPage title="Template Studio" />} />
+          <Route path="template-studio" element={<TemplateWorkspace />} />
           <Route path="history" element={<PlaceholderPage title="History" />} />
           <Route path="settings" element={<PlaceholderPage title="Settings" />} />
         </Route>
