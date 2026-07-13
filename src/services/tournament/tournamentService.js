@@ -5,11 +5,35 @@ import { TOURNAMENT_STATUS } from '../../constants/tournamentStatus';
 const getTournamentsRef = (userId) => ref(database, `users/${userId}/tournaments`);
 const getTournamentRef = (userId, tournamentId) => ref(database, `users/${userId}/tournaments/${tournamentId}`);
 
-export const createTournament = async (userId, data) => {
+export const initializeTournament = async (userId, data, teamsData = null) => {
   const newRef = push(getTournamentsRef(userId));
   const tournamentId = newRef.key;
   
   const timestamp = new Date().toISOString();
+  
+  // Format Teams using stable IDs instead of an array if they aren't already
+  const formattedTeams = {};
+  if (teamsData && Array.isArray(teamsData)) {
+    teamsData.forEach((team, index) => {
+      // Ensure team has a stable UUID, else generate one locally (though validation should provide it)
+      const teamId = team.id || `team_${Date.now()}_${index}`;
+      
+      const formattedPlayers = {};
+      if (team.players && Array.isArray(team.players)) {
+        team.players.forEach((p, pIndex) => {
+          const pId = p.id || `player_${Date.now()}_${pIndex}`;
+          formattedPlayers[pId] = { ...p, id: pId };
+        });
+      }
+
+      formattedTeams[teamId] = {
+        ...team,
+        id: teamId,
+        displayOrder: team.displayOrder || index + 1,
+        players: formattedPlayers
+      };
+    });
+  }
   
   const payload = {
     metadata: {
@@ -23,17 +47,20 @@ export const createTournament = async (userId, data) => {
       completedMatches: 0,
       currentMatch: 1,
       createdBy: userId,
+      isReadyForMatch: !!teamsData && teamsData.length > 0
     },
     configuration: {
       game: data.game,
       calculationMethod: data.calculationMethod,
-      pointConfigId: 'custom', // In the future, could link to a global template ID
-      pointConfig: data.pointConfig // Embedded for now for simplicity
+      pointConfigId: 'custom',
+      pointConfig: data.pointConfig
     },
+    teams: formattedTeams,
     matches: {},
-    results: {},
+    overallResult: {},
+    exports: {},
     history: {
-      [Date.now()]: { action: 'CREATED', timestamp }
+      [Date.now()]: { action: 'INITIALIZED', timestamp }
     }
   };
 

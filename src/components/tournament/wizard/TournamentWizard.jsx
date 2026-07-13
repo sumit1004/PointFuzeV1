@@ -6,19 +6,21 @@ import Step1BasicInfo from './Step1BasicInfo';
 import Step2GameSelection from './Step2GameSelection';
 import Step3Method from './Step3Method';
 import Step4PointConfig from './Step4PointConfig';
-import Step5Review from './Step5Review';
+import Step5TeamSetup from './Step5TeamSetup';
+import Step6Review from './Step6Review';
 import { useAuth } from '../../../hooks/useAuth';
-import { createTournament } from '../../../services/tournament/tournamentService';
+import { initializeTournament } from '../../../services/tournament/tournamentService';
 
 const INITIAL_STATE = {
   name: '',
   description: '',
   game: '',
   calculationMethod: '',
-  pointConfig: null
+  pointConfig: null,
+  teams: []
 };
 
-const STEPS = ['Basic Info', 'Game', 'Method', 'Scoring', 'Review'];
+const STEPS = ['Basic Info', 'Game', 'Method', 'Scoring', 'Team Setup', 'Review'];
 
 const TournamentWizard = () => {
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ const TournamentWizard = () => {
   const [formData, setFormData] = useState(INITIAL_STATE);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, 5));
+  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, 6));
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
 
   const updateFormData = (key, value) => {
@@ -39,19 +41,19 @@ const TournamentWizard = () => {
     setIsSubmitting(true);
     try {
       const payload = { ...formData, status };
-      const newId = await createTournament(user.uid, payload);
-      toast.success('Tournament created successfully!');
+      const newId = await initializeTournament(user.uid, payload, formData.teams);
+      toast.success('Tournament Initialized successfully!');
       navigate(`/dashboard/tournaments/${newId}`);
     } catch (error) {
       console.error(error);
-      toast.error('Failed to create tournament.');
+      toast.error('Failed to initialize tournament.');
       setIsSubmitting(false);
     }
   };
 
   return (
     <div className="glass-panel p-6 md:p-8 rounded-xl border border-[rgba(255,255,255,0.05)] shadow-xl relative min-h-[500px] flex flex-col">
-      <WizardStepper currentStep={currentStep} totalSteps={5} stepTitles={STEPS} />
+      <WizardStepper currentStep={currentStep} totalSteps={6} stepTitles={STEPS} />
       
       <div className="flex-1 mt-6">
         {currentStep === 1 && (
@@ -67,7 +69,10 @@ const TournamentWizard = () => {
           <Step4PointConfig formData={formData} updateFormData={updateFormData} onNext={nextStep} onPrev={prevStep} />
         )}
         {currentStep === 5 && (
-          <Step5Review formData={formData} onPrev={prevStep} onCreate={() => handleCreate('ACTIVE')} onSaveDraft={() => handleCreate('DRAFT')} isSubmitting={isSubmitting} />
+          <Step5TeamSetup formData={formData} updateFormData={updateFormData} onNext={nextStep} onPrev={prevStep} />
+        )}
+        {currentStep === 6 && (
+          <Step6Review formData={formData} onPrev={prevStep} onCreate={() => handleCreate('ACTIVE')} onSaveDraft={() => handleCreate('DRAFT')} isSubmitting={isSubmitting} />
         )}
       </div>
     </div>

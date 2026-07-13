@@ -11,10 +11,11 @@
   - Phase 1: Authentication & Landing Page implementation, Global Layout, Routing, Database init, massive UI/UX Polish.
   - Phase 2: Dashboard Foundation, modular widget architecture, realtime database listeners, nested routing.
   - Phase 3: Tournament Management Foundation, 5-Step Wizard, Tournament Context, Workspace List, Expanded Firebase Schema.
+  - Phase 4: Tournament Initialization & Team Setup, Excel Parsing, Stable IDs, Firebase Initialization Schema.
 - **In Progress**:
   - N/A
 - **Pending**:
-  - Phase 4: Match Management & Calculation Engine
+  - Phase 5: Match Management & Calculation Engine
 
 ## Context
 - **Current Working File**: N/A
